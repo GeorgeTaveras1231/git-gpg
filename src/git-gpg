@@ -5,6 +5,7 @@ source $support_path/global.bash
 source $support_path/init.bash
 source $support_path/addperson.bash
 source $support_path/whoknows.bash
+source $support_path/burn.bash
 
 project_root=$(git rev-parse --show-toplevel)
 recipients_path=$project_root/secrets/recipients
@@ -76,10 +77,6 @@ raw_files() {
 
 raw_file_for() {
   echo $1 | sed -e "s#$project_root/secrets/hidden#$project_root/secrets/raw#"
-}
-
-burn() {
-  rm -rf $project_root/{.gitgpg,secrets}
 }
 
 case $1 in
