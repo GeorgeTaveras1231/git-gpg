@@ -1,0 +1,91 @@
+#! /usr/bin/env bash
+
+support_path=$(dirname $(which git-gpg))
+source $support_path/global.bash
+source $support_path/init.bash
+source $support_path/addperson.bash
+source $support_path/whoknows.bash
+
+project_root=$(git rev-parse --show-toplevel)
+recipients_path=$project_root/secrets/recipients
+recipients=$(ls $recipients_path/*.public 2> /dev/null)
+
+hide() {
+  setup &>/dev/null
+
+  normalized_recipient_ids=$(recipient_ids | sed -e 's/^/--recipient /')
+
+  for file in $(raw_files); do
+    hidden_destination $file | xargs mkdir -p
+    gpg --encrypt --armor $normalized_recipient_ids --output "$(hidden_destination $file)/$(basename $file)" $file
+  done
+}
+
+diff() {
+  anchor_version=${1-HEAD}
+  for file in $(hidden_files); do
+    stripped_file_name=$(echo $file | sed -e "s#$project_root/##")
+
+    git show $anchor_version:$stripped_file_name | \
+    gpg --decrypt | \
+    git diff --no-index -- - $(raw_file_for $file)
+  done
+}
+
+reveal() {
+  for file in $(hidden_files); do
+    raw_destination $file | xargs mkdir -p
+    raw_file="$(raw_file_for $file)"
+
+    if [[ -f $raw_file ]]; then
+      read -r -p "$raw_file exists. Confirm override? [y/N] " response
+      case $response in
+        [nN]) exit 0;;
+      esac
+    fi
+
+    gpg --decrypt $file > "$(raw_file_for $file)"
+  done
+}
+
+clean() {
+  rm -r $project_root/secrets/raw
+}
+
+recipient_ids() {
+  for recipient in $recipients; do
+    gpg --with-fingerprint --with-colon $recipient | grep fpr | cut -d ':' -f 10
+  done
+}
+
+hidden_destination() {
+  echo $1 | sed -e "s#$project_root/secrets/raw#$project_root/secrets/hidden#" | xargs dirname
+}
+
+raw_destination() {
+  echo $1 | sed -e "s#$project_root/secrets/hidden#$project_root/secrets/raw#" | xargs dirname
+}
+
+hidden_files() {
+ find $project_root/secrets/hidden -name '*' -type f -print0
+}
+
+raw_files() {
+ find $project_root/secrets/raw -name '*' -type f -print0
+}
+
+raw_file_for() {
+  echo $1 | sed -e "s#$project_root/secrets/hidden#$project_root/secrets/raw#"
+}
+
+burn() {
+  rm -rf $project_root/{.gitgpg,secrets}
+}
+
+case $1 in
+  burn|whoknows|addperson|hide|init|diff|reveal|clean) $@;;
+  *)
+    echo "Invalid command $1"
+    echo "$(basename $0) [burn|whoknows|addperson|hide|init|diff|reveal|clean]"
+    exit 1;;
+esac
