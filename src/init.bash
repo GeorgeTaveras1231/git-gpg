@@ -12,6 +12,8 @@ _setup_project_structure() {
 EOF
 
   mkdir -p $gpg_dir
+  touch $secrets_dir/hidden/.keep
+  touch $gpg_dir/.keep
   printf "Done\n"
 }
 
