@@ -1,5 +1,5 @@
 whoknows() {
-  ensure_initialized
+  _ensure_initialized
 
-  gpg --homedir $project_root/.gitgpg --list-keys
+  gpg --homedir $gpg_dir --list-keys
 }

@@ -1,5 +1,5 @@
 addperson() {
-  ensure_initialized
+  _ensure_initialized
 
   if [[ -z $@ ]]; then
     echo "$(basename $0) addperson identifier1 [identifierN...]"

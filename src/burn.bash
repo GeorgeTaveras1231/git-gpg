@@ -1,5 +1,5 @@
 burn() {
-  if ! [[ -d $project_root/secrets ]] || ! [[ -d $project_root/.gitgpg  ]]; then
+  if ! [[ -d $project_root/secrets ]] && ! [[ -d $project_root/.gitgpg  ]]; then
     echo "Nothing to delete..."
     exit 0
   fi
