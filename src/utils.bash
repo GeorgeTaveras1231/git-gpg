@@ -3,11 +3,12 @@ _recipient_ids() {
 }
 
 _hidden_destination() {
-  echo $1 | sed -e "s#$(secrets_dir)/raw#$(secrets_dir)/hidden#" | xargs dirname
+  secrets_dir=$(_secrets_dir)
+  dirname $(echo $1 | sed -e "s#$secrets_dir/raw#$secrets_dir/hidden#")
 }
 
 _raw_destination() {
-  echo $1 | sed -e "s#$(secrets_dir)/hidden#$(secrets_dir)/raw#" | xargs dirname
+  dirname $(_raw_file_for $1)
 }
 
 _hidden_files() {
@@ -15,17 +16,17 @@ _hidden_files() {
 }
 
 _raw_files() {
-  find "$(secrets_dir)/raw" -name '*' -type f
+  find "$(_secrets_dir)/raw" -name '*' -type f
 }
 
 _raw_file_for() {
-  echo $1 | sed -e "s#$project_root/secrets/hidden#$project_root/secrets/raw#"
+  echo $1 | sed -e "s#$(_secrets_dir)/hidden#$(_secrets_dir)/raw#"
 }
 
 _encrypt() {
   file=$1
-  normalized_recipient_ids=$(recipient_ids | sed -e 's/^/--recipient /')
-  destination=$(hidden_destination $file)
+  normalized_recipient_ids=$(_recipient_ids | sed -e 's/^/--recipient /')
+  destination=$(_hidden_destination $file)
   mkdir -p $destination
 
   gpg --encrypt $normalized_recipient_ids --output "$destination/$(basename $file)" $file
@@ -50,7 +51,7 @@ EOF
 }
 
 _ensure_initialized() {
-  if ! [[ -d $project_root/.gitgpg ]]; then
+  if ! [[ -d $gpg_dir ]]; then
     echo "Run '$(basename $0) init' first "
     exit 1
   fi
