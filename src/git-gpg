@@ -9,18 +9,8 @@ source $support_path/reveal.bash
 source $support_path/clean.bash
 source $support_path/addperson.bash
 source $support_path/whoknows.bash
+source $support_path/diff.bash
 source $support_path/burn.bash
-
-diff() {
-  anchor_version=${1-HEAD}
-  for file in $(hidden_files); do
-    stripped_file_name=$(echo $file | sed -e "s#$project_root/##")
-
-    git show $anchor_version:$stripped_file_name | \
-    gpg --decrypt | \
-    git diff --no-index -- - $(raw_file_for $file)
-  done
-}
 
 case $1 in
   burn|whoknows|addperson|hide|init|diff|reveal|clean) $@;;

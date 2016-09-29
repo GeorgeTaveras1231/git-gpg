@@ -16,7 +16,7 @@ _hidden_files() {
 }
 
 _raw_files() {
-  find "$(_secrets_dir)/raw" -name '*' -type f
+  find "$(_secrets_dir)/raw" -name '*' -type f  -not -name ".*"
 }
 
 _raw_file_for() {
@@ -33,20 +33,30 @@ _encrypt() {
 }
 
 _secrets_dir() {
-  git config --local gitgpg.secretsdir
+  _relative_path $(_config gitgpg.secretsdir)
+}
+
+_config() {
+  git config -f $config_file $*
+}
+
+_relative_path() {
+  echo "$project_root/$1"
 }
 
 _setup_project_structure() {
-  sec_dir=$(_secrets_dir)
+  local secrets_dir=$(_relative_path $1)
+
   printf "Creating git-gpg folder structure..."
-  mkdir -p $sec_dir/{raw,hidden}
-  cat <<-EOF > $sec_dir/.gitignore
+  mkdir -p $secrets_dir/{raw,hidden}
+  cat <<-EOF > $secrets_dir/.gitignore
 # Ignore all files in this directory. This is for your own good
 raw/*
 EOF
 
   mkdir -p $gpg_dir
   touch $gpg_dir/.keep
+  touch $config_file
   printf "Done\n"
 }
 

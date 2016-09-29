@@ -1,5 +1,5 @@
 burn() {
-  if ! [[ -d $project_root/secrets ]] && ! [[ -d $project_root/.gitgpg  ]]; then
+  if ! [[ -d $(_secrets_dir) ]] && ! [[ -d $gpg_dir  ]]; then
     echo "Nothing to delete..."
     exit 0
   fi
@@ -9,5 +9,6 @@ burn() {
     [nN]) exit 0;;
   esac
 
-  rm -r $project_root/{.gitgpg,secrets} 2> /dev/null
+  rm -r $(_secrets_dir) 2> /dev/null
+  rm -r $gpg_dir 2> /dev/null
 }
