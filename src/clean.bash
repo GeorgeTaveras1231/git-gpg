@@ -1,15 +1,15 @@
 clean() {
   echo "Cleaning up raw files"
-  rm -r $(_secrets_dir)/raw/*
+  rm -r $(_secrets-dir)/raw/*
 }
 
-_register_command clean
+_register-command clean
 
-_clean_signature() {
+_clean-signature() {
   echo "clean"
 }
 
-_clean_brief() {
+_clean-brief() {
   cat <<-EOF
     Remove all raw secret files
 EOF

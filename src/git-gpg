@@ -3,12 +3,14 @@
 support_path=$(dirname $(which git-gpg))
 source $support_path/global.bash
 source $support_path/utils.bash
+
 source $support_path/init.bash
+source $support_path/add-person.bash
 source $support_path/hide.bash
 source $support_path/reveal.bash
+source $support_path/edit-key.bash
 source $support_path/clean.bash
-source $support_path/addperson.bash
-source $support_path/whoknows.bash
+source $support_path/who-knows.bash
 source $support_path/diff.bash
 source $support_path/burn.bash
 source $support_path/config.bash
@@ -28,9 +30,9 @@ _run () {
     echo ""
 
     for c in $commands; do
-      echo "  $(tput bold)$(_${c}_signature)$(tput sgr0)"
+      echo "  $(tput bold)$(_${c}-signature)$(tput sgr0)"
       echo ""
-      "_${c}_brief"
+      "_${c}-brief"
       echo ""
     done
   } | less -r

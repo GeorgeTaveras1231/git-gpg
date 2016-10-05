@@ -1,7 +1,7 @@
 reveal() {
-  for file in $(_hidden_files); do
-    mkdir -p $(_raw_destination $file)
-    raw_file="$(_raw_file_for $file)"
+  for file in $(_hidden-files); do
+    mkdir -p $(_raw-destination $file)
+    raw_file="$(_raw-file-for $file)"
 
     if [[ -f $raw_file ]]; then
       read -r -p "$raw_file exists. Confirm override? [y/N] " response
@@ -14,13 +14,13 @@ reveal() {
   done
 }
 
-_register_command reveal
+_register-command reveal
 
-_reveal_signature() {
+_reveal-signature() {
   echo "reveal"
 }
 
-_reveal_brief() {
+_reveal-brief() {
   cat <<-EOF
     Decrypt hidden files
 EOF

@@ -1,12 +1,12 @@
 hide() {
-  _ensure_initialized
+  _ensure-initialized
 
   if [[ -z $(_recipient_ids) ]]; then
-    echo "Trust ring is empty. Use \`$(basename $0) addperson identifier1 [identifierN]\`"
+    echo "Trust ring is empty. Use \`$(_full-signature add-person)\`"
     exit 1
   fi
 
-  files_to_encrypt=$(_raw_files)
+  files_to_encrypt=$(_raw-files)
 
   if [[ -z $files_to_encrypt ]]; then
     echo "Nothing to hide..."
@@ -25,13 +25,13 @@ hide() {
   clean
 }
 
-_register_command hide
+_register-command hide
 
-_hide_signature() {
+_hide-signature() {
   echo "hide"
 }
 
-_hide_brief() {
+_hide-brief() {
   cat <<-EOF
     Encrypt raw files
 EOF

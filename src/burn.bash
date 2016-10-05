@@ -1,5 +1,5 @@
 burn() {
-  if ! [[ -d $(_secrets_dir) ]] && ! [[ -d $gpg_dir  ]]; then
+  if ! [[ -d $(_secrets-dir) ]] && ! [[ -d $gpg_dir  ]]; then
     echo "Nothing to delete..."
     exit 0
   fi
@@ -9,17 +9,17 @@ burn() {
     [nN]) exit 0;;
   esac
 
-  rm -r $(_secrets_dir) 2> /dev/null
+  rm -r $(_secrets-dir) 2> /dev/null
   rm -r $gpg_dir 2> /dev/null
 }
 
-_register_command burn
+_register-command burn
 
-_burn_signature() {
+_burn-signature() {
   echo "burn"
 }
 
-_burn_brief() {
+_burn-brief() {
   cat <<-EOF
     Delete all secret files and .gitgpg folder.
 EOF

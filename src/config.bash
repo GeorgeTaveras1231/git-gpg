@@ -1,16 +1,16 @@
 config() {
-  _ensure_initialized
+  _ensure-initialized
 
   _config --list
 }
 
-_register_command config
+_register-command config
 
-_config_signature() {
+_config-signature() {
   echo "config"
 }
 
-_config_brief() {
+_config-brief() {
   cat <<-EOF
     View config
 EOF

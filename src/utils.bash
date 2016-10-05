@@ -1,4 +1,4 @@
-_register_command() {
+_register-command() {
   if [[ -z $commands ]]; then
     commands=$1
     return
@@ -7,54 +7,54 @@ _register_command() {
   commands="$commands $1"
 }
 
-_recipient_ids() {
+_recipient-ids() {
   gpg --homedir $gpg_dir --fingerprint --with-colon 2> /dev/null | grep fpr | cut -d ':' -f 10
 }
 
-_hidden_destination() {
-  secrets_dir=$(_secrets_dir)
+_hidden-destination() {
+  secrets_dir=$(_secrets-dir)
   dirname $(echo $1 | sed -e "s#$secrets_dir/raw#$secrets_dir/hidden#")
 }
 
-_raw_destination() {
-  dirname $(_raw_file_for $1)
+_raw-destination() {
+  dirname $(_raw-file-for $1)
 }
 
-_hidden_files() {
+_hidden-files() {
  find $project_root/secrets/hidden -name '*' -type f
 }
 
-_raw_files() {
-  find "$(_secrets_dir)/raw" -name '*' -type f  -not -name ".*"
+_raw-files() {
+  find "$(_secrets-dir)/raw" -name '*' -type f  -not -name ".*"
 }
 
-_raw_file_for() {
-  echo $1 | sed -e "s#$(_secrets_dir)/hidden#$(_secrets_dir)/raw#"
+_raw-file-for() {
+  echo $1 | sed -e "s#$(_secrets-dir)/hidden#$(_secrets-dir)/raw#"
 }
 
 _encrypt() {
   file=$1
-  normalized_recipient_ids=$(_recipient_ids | sed -e 's/^/--recipient /')
-  destination=$(_hidden_destination $file)
+  normalized_recipient_ids=$(_recipient-ids | sed -e 's/^/--recipient /')
+  destination=$(_hidden-destination $file)
   mkdir -p $destination
 
   gpg --homedir $gpg_dir --encrypt $normalized_recipient_ids --output "$destination/$(basename $file)" $file
 }
 
-_secrets_dir() {
-  _relative_path $(_config gitgpg.secretsdir)
+_secrets-dir() {
+  _relative-path $(_config gitgpg.secretsdir)
 }
 
 _config() {
   git config -f $config_file $*
 }
 
-_relative_path() {
+_relative-path() {
   echo "$project_root/$1"
 }
 
-_setup_project_structure() {
-  local secrets_dir=$(_relative_path $1)
+_setup-project-structure() {
+  local secrets_dir=$(_relative-path $1)
 
   printf "Creating git-gpg folder structure..."
   mkdir -p $secrets_dir/{raw,hidden}
@@ -69,9 +69,13 @@ EOF
   printf "Done\n"
 }
 
-_ensure_initialized() {
+_ensure-initialized() {
   if ! [[ -d $gpg_dir ]]; then
     echo "Run '$(basename $0) init' first "
     exit 1
   fi
+}
+
+_full-signature() {
+  echo $(basename $0) $("_$1_signature")
 }
