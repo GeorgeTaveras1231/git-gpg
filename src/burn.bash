@@ -12,3 +12,15 @@ burn() {
   rm -r $(_secrets_dir) 2> /dev/null
   rm -r $gpg_dir 2> /dev/null
 }
+
+_register_command burn
+
+_burn_signature() {
+  echo "burn"
+}
+
+_burn_brief() {
+  cat <<-EOF
+    Delete all secret files and .gitgpg folder.
+EOF
+}

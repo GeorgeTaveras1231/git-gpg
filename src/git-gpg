@@ -11,11 +11,29 @@ source $support_path/addperson.bash
 source $support_path/whoknows.bash
 source $support_path/diff.bash
 source $support_path/burn.bash
+source $support_path/config.bash
 
-case $1 in
-  burn|whoknows|addperson|hide|init|diff|reveal|clean) $@;;
-  *)
-    echo "Invalid command $1"
-    echo "$(basename $0) [burn|whoknows|addperson|hide|init|diff|reveal|clean]"
-    exit 1;;
-esac
+_run () {
+  for c in $commands; do
+    if [[ $1 = $c  ]]; then
+      $@
+      exit 0
+    fi
+  done
+
+  {
+    echo "Invalid command"
+    echo ""
+    echo "Try one of the following:"
+    echo ""
+
+    for c in $commands; do
+      echo "  $(tput bold)$(_${c}_signature)$(tput sgr0)"
+      echo ""
+      "_${c}_brief"
+      echo ""
+    done
+  } | less -r
+}
+
+_run $@

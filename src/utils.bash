@@ -1,3 +1,12 @@
+_register_command() {
+  if [[ -z $commands ]]; then
+    commands=$1
+    return
+  fi
+
+  commands="$commands $1"
+}
+
 _recipient_ids() {
   gpg --homedir $gpg_dir --fingerprint --with-colon 2> /dev/null | grep fpr | cut -d ':' -f 10
 }

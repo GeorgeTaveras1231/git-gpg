@@ -24,3 +24,15 @@ hide() {
 
   clean
 }
+
+_register_command hide
+
+_hide_signature() {
+  echo "hide"
+}
+
+_hide_brief() {
+  cat <<-EOF
+    Encrypt raw files
+EOF
+}

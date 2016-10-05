@@ -14,3 +14,14 @@ reveal() {
   done
 }
 
+_register_command reveal
+
+_reveal_signature() {
+  echo "reveal"
+}
+
+_reveal_brief() {
+  cat <<-EOF
+    Decrypt hidden files
+EOF
+}
