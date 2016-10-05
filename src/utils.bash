@@ -77,5 +77,5 @@ _ensure-initialized() {
 }
 
 _full-signature() {
-  echo $(basename $0) $("_$1_signature")
+  echo $(basename $0) $("_$1-signature")
 }

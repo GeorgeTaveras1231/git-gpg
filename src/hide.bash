@@ -1,7 +1,7 @@
 hide() {
   _ensure-initialized
 
-  if [[ -z $(_recipient_ids) ]]; then
+  if [[ -z $(_recipient-ids) ]]; then
     echo "Trust ring is empty. Use \`$(_full-signature add-person)\`"
     exit 1
   fi
