@@ -38,7 +38,7 @@ _encrypt() {
   destination=$(_hidden_destination $file)
   mkdir -p $destination
 
-  gpg --encrypt $normalized_recipient_ids --output "$destination/$(basename $file)" $file
+  gpg --homedir $gpg_dir --encrypt $normalized_recipient_ids --output "$destination/$(basename $file)" $file
 }
 
 _secrets_dir() {
