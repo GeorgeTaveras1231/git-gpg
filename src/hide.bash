@@ -13,16 +13,9 @@ hide() {
     exit 0
   fi
 
-  read -r -p "This will delete the raw files after encrypting them. Ok? [y/N] " response
-  case $response in
-    [nN]) exit 0;;
-  esac
-
   for file in $files_to_encrypt; do
     _encrypt $file
   done
-
-  clean
 }
 
 _register-command hide

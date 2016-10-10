@@ -1,7 +1,7 @@
 who-knows() {
   _ensure-initialized
 
-  gpg --homedir $gpg_dir --list-keys
+  gpg --homedir $gpg_dir --list-keys 2> /dev/null
 }
 
 _register-command who-knows
