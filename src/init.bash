@@ -16,6 +16,8 @@ _init-brief() {
   cat <<-EOF
     Initialize git-gpg project. This will create a .gitgpg directory that
     serves as the gnupg public-key database and the config database.
+
+$(_init-help)
 EOF
 }
 
