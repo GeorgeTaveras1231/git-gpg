@@ -6,7 +6,7 @@ hide() {
     exit 1
   fi
 
-  files_to_encrypt=$(_raw-files)
+  local files_to_encrypt=$(_raw-files)
 
   if [[ -z $files_to_encrypt ]]; then
     echo "Nothing to hide..."

@@ -33,20 +33,36 @@ _raw-file-for() {
 }
 
 _encrypt() {
-  file=$1
-  normalized_recipient_ids=$(_recipient-ids | sed -e 's/^/--recipient /')
-  destination=$(_hidden-destination $file)
+  local file=$1
+  local normalized_recipient_ids=$(_recipient-ids | sed -e 's/^/--recipient /')
+  local destination=$(_hidden-destination $file)
+  local enc_flag
+
+  if $(_config_encrypted_format) = 'ascii'; then
+    enc_flag="--armor "
+  fi
+
   mkdir -p $destination
 
-  gpg --homedir $gpg_dir --encrypt $normalized_recipient_ids --output "$destination/$(basename $file)" $file
+  gpg $enc_flag --homedir $gpg_dir --encrypt $normalized_recipient_ids --output "$destination/$(basename $file)" $file
 }
 
 _secrets-dir() {
-  _relative-path $(_config gitgpg.secretsdir)
+  _relative-path $(_config gitgpg.dir)
 }
 
 _config() {
-  git config -f $config_file $*
+  git config $@
+}
+
+_config_encrypted_format() {
+  local config_format=$(_config gitgpg.format)
+  case $config_format in
+    ascii|binary) echo $config_format;;
+    *)
+      echo "Warning: Invalid encrypted format. Must be binary or ascii. Falling back to ascii." >&2
+      echo 'binary'
+  esac
 }
 
 _relative-path() {
@@ -56,7 +72,7 @@ _relative-path() {
 _setup-project-structure() {
   local secrets_dir=$(_relative-path $1)
 
-  printf "Creating git-gpg folder structure..."
+  printf "Creating git-gpg directory structure..."
   mkdir -p $secrets_dir/{raw,hidden}
   cat <<-EOF > $secrets_dir/.gitignore
 # Ignore all files in this directory. This is for your own good
