@@ -1,7 +1,11 @@
 config() {
   _ensure-initialized
 
-  _config --list
+  if [[ -z $@  ]]; then
+    _config --list
+  else
+    _config $@
+  fi
 }
 
 _register-command config

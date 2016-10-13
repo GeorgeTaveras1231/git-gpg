@@ -54,7 +54,7 @@ git gpg reveal
 
 ### Override encrypt format
 
-By default, the encrypt format is binary but can be configured to be ascii
+By default, the encrypt format is ascii but can be configured to be binary
 ```
-git gpg config encrypt.format ascii
+git gpg config encrypt.format binary
 ```

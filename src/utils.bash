@@ -21,7 +21,7 @@ _raw-destination() {
 }
 
 _hidden-files() {
- find $project_root/secrets/hidden -name '*' -type f
+  find $(_secrets-dir)/hidden -name '*' -type f
 }
 
 _raw-files() {
@@ -38,9 +38,12 @@ _encrypt() {
   local destination=$(_hidden-destination $file)
   local enc_flag
 
-  if $(_config_encrypted_format) = 'ascii'; then
+  if [[ $(_config-encrypted-format) = 'ascii' ]]; then
     enc_flag="--armor "
   fi
+
+  echo $(_config-encrypted-format)
+  echo $enc_flag
 
   mkdir -p $destination
 
@@ -48,20 +51,20 @@ _encrypt() {
 }
 
 _secrets-dir() {
-  _relative-path $(_config gitgpg.dir)
+  _relative-path $(_config secrets.dir)
 }
 
 _config() {
-  git config $@
+  git config -f $config_file $@
 }
 
-_config_encrypted_format() {
-  local config_format=$(_config gitgpg.format)
+_config-encrypted-format() {
+  local config_format=$(_config encrypt.format)
   case $config_format in
     ascii|binary) echo $config_format;;
     *)
       echo "Warning: Invalid encrypted format. Must be binary or ascii. Falling back to ascii." >&2
-      echo 'binary'
+      echo "ascii"
   esac
 }
 

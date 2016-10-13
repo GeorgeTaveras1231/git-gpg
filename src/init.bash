@@ -1,8 +1,8 @@
 init() {
   local secrets_dir=${1-$default_secret_dir}
   _setup-project-structure $secrets_dir
-  _config gitgpg.dir $secrets_dir
-  _config gitgpg.format ascii
+  _config secrets.dir $secrets_dir
+  _config encrypt.format ascii
 }
 
 _register-command init
