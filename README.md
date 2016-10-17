@@ -1,3 +1,5 @@
+This project is still under development and is not yet distributed via any means.
+
 # git-gpg
 > A tool to help you hide secrets in git
 
