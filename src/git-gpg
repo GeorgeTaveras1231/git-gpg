@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-support_path=$(dirname $(which git-gpg))
+support_path="$(dirname $(which git-gpg))/git-gpg-utils"
 source $support_path/global.bash
 source $support_path/utils.bash
 
