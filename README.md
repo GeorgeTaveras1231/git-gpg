@@ -1,7 +1,11 @@
-This project is still under development and is not yet distributed via any means.
-
 # git-gpg
 > A tool to help you hide secrets in git
+
+## Install
+
+```
+npm install -g git-gpg
+```
 
 ## Usage
 
@@ -14,45 +18,45 @@ $ git gpg
 
 ## Tutorial
 
-### ** Initialize repo **
+### Initialize repo
 
 ```
 git gpg init # or
 git gpg init custom-secrets-dir
 ```
 
-### ** Add trustees **
+### Add trustees
 
 In this example, a trusted key can be anything that un-ambigously identifies a public key in your possession.
 ```
 git gpg add-person a-trusted-key
 ```
 
-###  ** List trustees **
+###  List trustees
 
 ```
 git gpg who-knows
 ```
 
-###  ** Hide files **
+###  Hide files
 
 ```
 git gpg hide
 ```
 
-### ** Clean raw secret files **
+### Clean raw secret files
 
 ```
 git gpg clean
 ```
 
-### ** Reveal hidden files **
+### Reveal hidden files
 
 ```
 git gpg reveal
 ```
 
-## ** Configurations **
+## Configurations
 
 ### Override encrypt format
 
