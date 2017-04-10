@@ -1,6 +1,6 @@
 {
   "name": "git-gpg",
-  "version": "1.0.0-beta",
+  "version": "1.0.1",
   "description": "git and gpg integration",
   "main": "index.js",
   "directories": {
