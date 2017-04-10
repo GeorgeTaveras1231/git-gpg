@@ -5,7 +5,7 @@ version() {
 _register-command version
 
 _version-signature() {
-  echo "hide"
+  echo "version"
 }
 
 _version-brief() {
