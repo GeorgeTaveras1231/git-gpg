@@ -1,10 +1,10 @@
 {
   "name": "git-gpg",
-  "version": "1.0.0",
+  "version": "1.0.0-beta",
   "description": "git and gpg integration",
   "main": "index.js",
-  "bin": {
-    "git-gpg": "./src/git-gpg"
+  "directories": {
+    "bin": "./src"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,3 +21,4 @@
   },
   "homepage": "https://github.com/GeorgeTaveras1231/git-gpg#readme"
 }
+
