@@ -13,6 +13,7 @@ source $support_path/clean.bash
 source $support_path/who-knows.bash
 source $support_path/diff.bash
 source $support_path/config.bash
+source $support_path/version.bash
 
 _run () {
   for c in $commands; do
