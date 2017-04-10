@@ -1,0 +1,23 @@
+{
+  "name": "git-gpg",
+  "version": "1.0.0",
+  "description": "git and gpg integration",
+  "main": "index.js",
+  "bin": {
+    "git-gpg": "./src/git-gpg"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeorgeTaveras1231/git-gpg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GeorgeTaveras1231/git-gpg/issues"
+  },
+  "homepage": "https://github.com/GeorgeTaveras1231/git-gpg#readme"
+}
